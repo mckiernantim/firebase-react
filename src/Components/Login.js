@@ -1,31 +1,36 @@
-import React, { useContext, useEffect, useState } from "react";
-import "firebase/auth";
+import React, { useContext, useEffect} from "react";
 import { UserContext } from "../Providers/UserProvider";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { signInWithGoogle } from "../Services/Firebase";
-export default function Login() {
+
+export const Login = () => {
+
+  const history = useHistory()
   const user = useContext(UserContext);
-  const [redirect, setredirect] = useState(null);
+ 
   useEffect(() => {
-    if (user) {
-      console.log(user)
-      setredirect("/LoggedInPage");
+    if(user){
+      history.push("/LoggedInPage")
     }
-  }, [user]);
-  if (redirect) {
-    return <Redirect to={redirect} />;
+  }, [user])
+
+  const handleSignIn = async () =>{
+    try {
+      await signInWithGoogle() 
+    } catch(err) {
+      console.log(err)
+    }
   }
-  return (
+ return (
     <div>
       <h1>Sign in with google!</h1>
       <button
         src="https://img.icons8.com/ios-filled/50/000000/google-logo.png"
         alt="google icon"
-        onClick={signInWithGoogle}
+        onClick={handleSignIn}
       >
         <span> Continue with Google</span>
-     
-      </button>
+    </button>
     </div>
   );
 }

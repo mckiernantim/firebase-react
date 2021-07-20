@@ -2,8 +2,6 @@ import dotenv from 'dotenv'
 import firebase from "firebase/app";
 import "firebase/auth";
 dotenv.config()
-
-
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -27,7 +25,7 @@ export const signInWithGoogle = () => {
 export const logOut = () => {
     auth.signOut().then(()=> {
       console.log('logged out')
-    }).catch((error) => {
+      }).catch((error) => {
       console.log(error.message)
     })
   }

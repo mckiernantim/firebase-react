@@ -1,6 +1,10 @@
 .App {
   text-align: center;
 }
+.user-image{
+  width:60vh;
+  height:60vh
+}
 
 .App-logo {
   height: 10vmin;

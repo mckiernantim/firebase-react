@@ -3,17 +3,20 @@ import { auth } from "../Services/Firebase";
 export const UserContext = createContext({user:null})
 
 export default (props) => {
-    const [user, setuser] = useState(null);
+    const [user, setUser] = useState(null);
     useEffect(() => {
         auth.onAuthStateChanged(async (user) => {
+            console.log("changing state of user")
             console.log(user)
             if(user){
             const { displayName, email, photoURL } = user;
-            setuser({
+            setUser({
                 displayName,
                 email,
                 photoURL
             })
+            }else{
+                setUser(null)
         }
     })
     }, []) 

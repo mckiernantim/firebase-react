@@ -1,7 +1,7 @@
 import React from 'react'
-import Login from '../Components/Login'
-import UserProvider  from '../Providers/UserProvider'
-export default function LoginPage() {
+import { Login } from '../Components/Login'
+
+export const LoginPage = () => {
     return (
         <div>
            <Login /> 

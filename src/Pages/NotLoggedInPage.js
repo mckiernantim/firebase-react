@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function NotLoggedInPage() {
+export const NotLoggedInPage= () => {
     return (
         <div>
            <h1> HEY YOU'RE NOT LOGGED IN</h1> 
