@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# Firebase Auth with Google and React Context API   
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project will walk you through the steps to set up User Authentiaction via Google sign in using Firebase, React and React Context.  
 
-## Available Scripts
+## What is Firebase?
 
-In the project directory, you can run:
+Firebase is whats known as  a BAAS, or Back End As A Service, for creating mobile and web applications. It was originally an independent company founded in 2011.  In 2014, Google acquired the platformand it is now their flagship offering for app development. Its primary features include a Realtime noSQL database, and user authentication that all come out of the box and ready to connect to a front end application.  While using Firebase is very convenient in many ways it also limits the scope of a full stack applicaiton by limiting the way we structure our database or backened functionality.  It is great for smaller applicaitons that do not need a large back end layer of complexity or to bring in certain features (LIKE AUTHENTICATION)
 
-### `npm start`
+### What's So Special About it?
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Firebase user Authentication is a streamlined, secure way to integrate multiple different sign in methods to our applications including Facebook, Google, Github, Twitter and more.  Additionally, Firebase provides analytics and a database functionality out of the box.  
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+In short - it's a powerful tool to help set up complex backend tasks in our applicaiton.
 
-### `npm test`
+### How will this work?
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To setup firebase on our apps we will need to perform the following:
 
-### `npm run build`
+* Signup for a Firebase account
+* Set up a Create-React-App
+* Register an applicaition on Firebase
+* Enable Firebase Authentication
+* Download our App credientials from Firebase to our `.env`
+* Install Firebase via NPM
+* Set up our React Context to provide auth data to components
+* Set up route guards to allow  ONLY authenticated users acces
+* Handle user logout
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## What we're doing in React
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Our React app is going to use a `service` ( just a function ) to create a 
+`firebaseAuth()` instance and call the `signInWithPopUp()` 
+method and pass it an instance of a `GoogleAuthProvider()`.   
+This is very similar to how we import and set up our express server.  
+We then take our app information from our `firebaseConfig` that Firebase 
+gave us when we resitered our app.  We will then create a `Contex` 
+by calling the `useContext()` hook.  Don't worry you are not familiar with `useContext()` 
+we'll walk through it together (read up on it <https://reactjs.org/docs/context.html>,)
+but for now thinkg of a `Context` as a way to share information between components
+without them down as props.  Once our users sign in we save the information we get from Google
+as state on our `Context` as `user`.  We then set up a `useEffect()` 
+hook to watch our `user`.  When our `user` logs out we update state on our `Context` 
+and then our `useEffect()` hook reroutes our application back to our login
+page preventing our router from loading a view unless the `user` in our `Context` state is valid.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Lets light this candle!
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project Set Up
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+* Clone this repo!  
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* Head to https://firebase.google.com/  and click `Get Started` to sign up for Firebase
 
-## Learn More
+* Firebase will biring you to the Project OverView Page.  Click the `</>` button to begin a web app.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    * Give your app a nickname (whatever you want it to be) 
+    * You will be shown a `firebaseConfig` object.  Keep it close by - we'll need it 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* In our CRA app - create a `.env` file and paste the following in:
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    ```
+    REACT_APP_API_KEY=""
+    REACT_APP_AUTH_DOMAIN=""
+    REACT_APP_DATABASE_URL=""
+    REACT_APP_PROJECT_ID=""
+    REACT_APP_STORAGE_BUCKET=""
+    REACT_APP_MESSAGING_SENDER_ID=""
+    REACT_APP_APP_ID=""
+    REACT_APP_MEASUREMENT_ID=""
+    ```
 
-### Analyzing the Bundle Size
+* Now we need to map all the values from our `firebaseConfig` object to our `.env` file.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* run `npm i dotenv firebase` to bring in our dependencies
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* Head to our `services` directory.  
