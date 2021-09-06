@@ -5,27 +5,17 @@ import { logOut } from "../Services/Firebase";
 
 export const LoggedInPage = () => {
   let history = useHistory();
-  const user = useContext(UserContext);
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   
   const updateUser = () => {
-    let { displayName, email, photoURL } = user;
-      setDisplayName(displayName)
-      setEmail(email);
-      setPhotoURL(photoURL)
+
     }
-  useEffect(() => {
-    if (!user) {
-      history.push("/");
-    } else {
-      updateUser()
-    } 
-  }, [user]);
+
+  useEffect(() => { });
   
   const handleLogout = async () => {
-    logOut();
     alert("you've been logged out")
   };
 
