@@ -175,9 +175,13 @@ export const UserContext = createContext(null)
     </UserContext.Provider>
 ```
 
-Now that we have our Context we need to perform the following in UserProvider.js:
+Now that we have our Context we need to perform the following in UserProvider.js
+* Create  `UserProvider` component that will  handle `UserContext` state. 
+* Render our `UserContext.Provider` inside of our `UserProvider`
+* Import our `auth` instance from `services/firebase.js`, listen for changes, and update state accordingly
 
-* Create a `UserProvdier` component that will  handle `UserContext` state.
+
+* Create  `UserProvdier`
 
 ```js
 export const UserProvider = (props) => {
@@ -202,5 +206,8 @@ export const UserProvider = (props) => {
  <strong>Note:</strong> Wait - what is this ` { props.children } ` you may be asking?  Smply put - the `props.children` method is available to us on all components.  It's best to think of it as a placeholder for values <em> we don't know yet </em> when desigining components.  In this case, our `UserProvider` component is rendering our `UserContext.Provider` component which we recieved from calling `createContext()`.  This `UserContext.Provder` component renders `{ props.children }` so that React knows that whatever is nested inside `UserContext.Provider` is rendered in our application.  
  
 More on `props.children` [here](https://reactjs.org/docs/composition-vs-inheritance.html) - or try it on [codepen](https://codepen.io/gaearon/pen/ozqNOV?editors=0010)
+
+
+
   
 
