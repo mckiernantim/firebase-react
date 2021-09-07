@@ -2,7 +2,7 @@
 Quick links 
 [Set Up](#project-set-up)
 [Firebase API](#firebase-api)
-[React useContext()](#react-usecontext()) 
+[React useContext()](#react-usecontext-api) 
 [UserContext](#managing-usercontext)
 [Auth State](#auth-and-state)
 [Summary](#putting-it-all-together)
@@ -94,7 +94,7 @@ page preventing our router from loading a view unless the `user` in our `Context
 npm i fireabase
 ```
 
-# Firbebase API
+# Firebase API
 Te firebase SDK - software development kit - gives us a <em> ton </em> of functionality out of the box.  For this lesson we will focus only on implementing Google Oauth.  Adding email/passoword login, or other Oauth only requires a few extra steps but is very similar.
 
 More information on Firebase [here](https://firebase.google.com/docs/auth/web/start)
@@ -158,7 +158,7 @@ export const signOut = async () =>{
 
 Congratulations, you just wrote up a service to leverage Oauth for you react application.  Next step is to connect it to our Create-React-App.
 
-# React useContext()
+# React Context API
 
 Next, we need to set up a context that will expose a global state value to all of our components.  Simply put, if we have a user held in the context's state - the user can navigate our application.  If not, we reoute the user to the login page.
 
