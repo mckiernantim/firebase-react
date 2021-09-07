@@ -221,7 +221,7 @@ export const UserProvider = (props) => {
     )
   }
 ```
- <strong>Note:</strong> Wait - what is this ` { props.children } ` you may be asking?  Smply put - the `props.children` method is available to us on all components.  It's best to think of it as a placeholder for values <em> we don't know yet </em> when desigining components.  In this case, our `UserProvider` component is rendering our `UserContext.Provider` component which we recieved from calling `createContext()`.  This `UserContext.Provder` component renders `{ props.children }` so that React knows that whatever is nested inside `UserContext.Provider` is rendered in our application.  
+ <strong>Note:</strong> Wait - what is this ` { props.children } ` you may be asking?  We want to be able to use UserContext.Provider for many apps and each app will be unique. For some apps, will only contain a simple message. In another app we may want to put an image. In another we may want to put several components. props.children will load whatever elements you put inside the top level component, allowing you to compose this component however you like.
  
 More on `props.children` [here](https://reactjs.org/docs/composition-vs-inheritance.html) - or try it on [codepen](https://codepen.io/gaearon/pen/ozqNOV?editors=0010)
 
