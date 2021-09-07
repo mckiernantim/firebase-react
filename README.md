@@ -1,10 +1,10 @@
 # Firebase Auth with Google and React Context API   
 Quick links 
 [Set Up](#project-set-up)
-[Firebase API](firebase-api)
-[React useContext()](react-usecontext()) 
-[UserContext](managing-usercontext)
-[Auth State](auth-and-state)
+[Firebase API](#firebase-api)
+[React useContext()](#react-usecontext()) 
+[UserContext](#managing-usercontext)
+[Auth State](#auth-and-state)
 [Summary](#putting-it-all-together)
 
 This project will walk you through the steps to set up User Authentiaction via Google sign in using Firebase, React and React Context.  
