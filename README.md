@@ -187,7 +187,7 @@ export const UserContext = createContext(null)
 ```
 # Managing UserContext
 
-Now that we have our Context - `UserContext` we need to perform the following in `UserProvider.js` to managin our context
+Now that we have our Context - `UserContext` we need to perform the following in `UserProvider.js` to manage our context
 
 * Create  `UserProvider` component that will  handle `UserContext` state. 
 
@@ -212,7 +212,7 @@ export const UserProvider = (props) => {
   const [user, setUser] = useState(null);
    return (
      <UserContext.Provider value={user}>
-      // the props.children will render any value that is passed to our component without us specifically invoking those             // values in our tempalte
+      // the props.children will render any value that is passed to our component without us specifically invoking those values in our tempalte
          <div>{props.children}</div>
     </UserContext.Provider>
     )
