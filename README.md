@@ -87,6 +87,7 @@ npm i fireabase
 Te firebase SDK - software development kit - gives us a <em> ton </em> of functionality out of the box.  For this lesson we will focus only on implementing Google Oauth.  Adding email/passoword login, or other Oauth only requires a few extra steps but is very similar.
 
 More information on Firebase [here](https://firebase.google.com/docs/auth/web/start)
+
 More on Oauth [here](https://en.wikipedia.org/wiki/OAuth)
 
 In order to leverage Firebase authentaction API we need to do the following:
