@@ -8,18 +8,23 @@ Quick links
 [Summary](#putting-it-all-together)
 
 This project will walk you through the steps to set up User Authentiaction via Google sign in using Firebase, React and React Context.  
+## What is authentication?
+
+Authentication is what we call the process that allows a device to verify a user and then connect them with certain resources.  Authentication is important because it allows us to keep our records secure.  There are numerous ways to imnplement user Authentication and using Firebase just one of many options we can integrate in our apps. 
 
 ## What is Firebase?
 
 Firebase is whats known as  a BAAS, or Back End As A Service, for creating mobile and web applications. 
 
-It was originally an independent company founded in 2011.  In 2014, Google acquired the platformand it is now their flagship offering for app development. Its primary features include a Realtime noSQL database, and user authentication that all come out of the box and ready to connect to a front end application. 
+It was originally an independent company founded in 2011.  In 2014, Google acquired the platformand it is now their flagship offering for app development. Its primary features include a Realtime noSQL database ( 'not only SQL' -  usually these store data in a JSON-like structure as opposed to tables, columns and rows), and user authentication that all come out of the box and ready to connect to a front end application. Rather than building your own backend (like we have with express, Postgres and heroku), you can configure and use Firebase instead or to provide certain features (like authentication).
 
-While using Firebase is very convenient in many ways it also limits the scope of a full stack applicaiton by limiting the way we structure our database or backened functionality.  It is great for smaller applicaitons that do not need a large back end layer of complexity or to bring in certain features (LIKE AUTHENTICATION)
+While using Firebase is very convenient in many ways it also limits the scope of a full stack applicaiton by limiting the way we structure our database or backened functionality.  It is great for smaller applicaitons that do not need a large back end layer of complexity or to bring in certain features. noSQL is not ideal for uses that have a lot of relational data.
+
+These days, it is not uncommon for an application to use multiple databases for different aspects of an app. For example, using firebase for authentication, but Postgres for storing product and order information
 
 ### What's So Special About it?
 
-Firebase user Authentication is a streamlined, secure way to integrate multiple different Oauth methods to our applications including Facebook, Google, Github, Twitter and more.  Additionally, Firebase provides analytics and a database functionality out of the box.  
+Firebase user Authentication is a streamlined, secure way to integrate multiple different Oauth (allowing 3rd parties like Google or GitHub to handle authentication for an app like Reddit or Code Wars).  Additionally, Firebase provides analytics and a database functionality out of the box.  
 
 In short - it's a powerful tool to help set up complex backend tasks in our applicaiton.
 
@@ -46,11 +51,10 @@ This is very similar to how we import and set up our express server.
 
 
 We then take our app information from our `firebaseConfig` that Firebase 
-gave us when we resitered our app.  We will then create a `Contex` 
-by calling the `useContext()` hook. Don't worry you are not familiar with `useContext()` 
-we'll walk through it together (read up on it <https://reactjs.org/docs/context.html>,)
+gave us when we resitered our app.  We will then create a `Context` 
+by calling the `useContext()` hook. Don't worry you are not familiar with `useContext()` we'll walk through it together (read up on it <https://reactjs.org/docs/context.html>,)
 but for now thinkg of a `Context` as a way to share information between components
-without them down as props.  
+without needing to pass them down as props.  
 
 Once our users sign in we save the information we get from Google
 as state on our `Context` as `user`.  We then set up a `useEffect()` 
@@ -83,7 +87,7 @@ page preventing our router from loading a view unless the `user` in our `Context
     REACT_APP_APP_ID=""
     REACT_APP_MEASUREMENT_ID=""
     ```
-  <strong> Note </strong> we do not need to install dotenv!  Create React App allows us to acces .env files but they <em> must </em> start with `REACT_APP` in our .env files.
+  <strong> Note </strong> we do not need to install dotenv!  Create React App allows us to acces .env files but they <em> must </em> start with `REACT_APP` in our .env file and the .env file <em> must </em> be in our root directory with our `package.json`.
 * Now we need to map all the values from our `firebaseConfig` object to our `.env` file.
 
 
@@ -95,7 +99,7 @@ npm i fireabase
 ```
 
 # Firebase API
-Te firebase SDK - software development kit - gives us a <em> ton </em> of functionality out of the box.  For this lesson we will focus only on implementing Google Oauth.  Adding email/passoword login, or other Oauth only requires a few extra steps but is very similar.
+The firebase SDK - software development kit - gives us a <em> ton </em> of functionality out of the box.  For this lesson we will focus only on implementing Google Oauth.  Adding email/passoword login, or other Oauth only requires a few extra steps but is very similar.
 
 More information on Firebase [here](https://firebase.google.com/docs/auth/web/start)
 
@@ -104,8 +108,8 @@ More on Oauth [here](https://en.wikipedia.org/wiki/OAuth)
 In order to leverage Firebase authentaction API we need to do the following:
 
 * Import our firebase files and create a `firebaseConfig` object with our `.env` variables
-```js
 
+```js
 import firebase from "firebase/app";
 import "firebase/auth"
 
@@ -118,7 +122,6 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
-
 ```
 * initialize an instance of firebase (much like an express server) with our config
 ```js
@@ -160,7 +163,7 @@ Congratulations, you just wrote up a service to leverage Oauth for you react app
 
 # React Context API
 
-Next, we need to set up a context that will expose a global state value to all of our components.  Simply put, if we have a user held in the context's state - the user can navigate our application.  If not, we reoute the user to the login page.
+Next, we need to set up a context that will expose a global state value to all of our components.  Simply put, if we have a user held in the context's state - the user can navigate our application.  If not, we reroute the user to the login page.
 
 Navigate to the `providers` folder in our app 
 ```js
@@ -250,7 +253,7 @@ export const UserProvider = (props) => {
   );
 };
 ```
-<strong>Note:</strong> the `onAuthStateChanged()` method creates something called an `Observer` from a library called RXJS.  This `Observer` listens for any changes on the object it was called on will fire whatever callback we specify once the `Observer` signals a change.  We don't need to get deep under the hood for this lesson but for more on Observers click  [here](https://rxjs.dev/guide/observer)
+<strong>Note:</strong> the `onAuthStateChanged()` method creates something called an `Observer` The Observer is like an event listener, it listens for changes in state and then will handle the change with the functionality we provide. We don't need to get too deep on this subject now but if you're curious check out the docs [here](https://rxjs.dev/guide/observer)
 
 In order to access our Context - we need to import in in `App.js` and nest our other components inside of it
 
@@ -389,7 +392,7 @@ Now that we have authentcation let's navigate to the [firebase console](https://
 
 From the dashboard, select your app, then on the Project Overview page - select authentication from the sidebar menu.
 
-You should now see a database that firebase uses to keep track of your users.  Notice each user has a uniqe `uid`. In our apps we can now store whatever information we may be using in our Postgress DB with the `uid` key to connect them to our users.  Any user that signs in will be recored in the Firebase Authentication table.
+You should now see a database that firebase uses to keep track of your users.  Notice each user has a unique `uid`. In our apps we can now store whatever information we may be using in our Postgress DB with the `uid` key to connect them to our users.  Any user that signs in will be recored in the Firebase Authentication table.
 
 # Wrapping it all up
 
