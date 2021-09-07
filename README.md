@@ -71,7 +71,7 @@ page preventing our router from loading a view unless the `user` in our `Context
     REACT_APP_APP_ID=""
     REACT_APP_MEASUREMENT_ID=""
     ```
-
+  <strong> Note </strong> we do not need to install dotenv!  Create React App allows us to acces .env files but they <em> must </em> start with `REACT_APP` in our .env files.
 * Now we need to map all the values from our `firebaseConfig` object to our `.env` file.
 
 * run `npm i dotenv firebase` to bring in our dependencies
