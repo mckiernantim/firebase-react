@@ -80,6 +80,8 @@ npm i fireabase
 ```
 
 ## Firbebase API
+Te firebase SDK - software development kit - gives us a <em> ton </em> of functionality out of the box.  For this lesson we will focus only on implementing Google Oauth.
 
+For more information on Firebase [here](https://firebase.google.com/docs/auth/web/start)
 
 
