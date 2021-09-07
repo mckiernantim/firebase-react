@@ -9,10 +9,8 @@ export const UserProvider = (props) => {
   const [user, setUser] = useState(null);
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
-	
       if (user) {
         const { email, displayName, photoURL, uid } = user;
-       
         setUser({ email, displayName, photoURL, uid });
       } else {
         setUser(null);

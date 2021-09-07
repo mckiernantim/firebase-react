@@ -17,7 +17,7 @@ const app = firebase.initializeApp(firebaseConfig);
 export const auth = app.auth();
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
-const emailProvider = new firebase.auth.EmailAuthProvider()
+
 
 export const signInWithGoogle = async () => {
   try {
@@ -36,19 +36,4 @@ export const signOut = async () =>{
   }
 }
 
-export const signInWithEmail = async (email, password) =>{ 
-  try {
-  await auth.signInWithEmailAndPassword(emailProvider)
-    } catch(err){
-    alert(err)
-  }
-}
 
-export const register = async (email, password ) => {
- try {
-  await auth.createUserWithEmailAndPassword(email, password)
- } catch(err) {
-    alert(err);
-    };
-   
-}
