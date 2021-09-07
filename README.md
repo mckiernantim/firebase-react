@@ -1,14 +1,18 @@
 # Firebase Auth with Google and React Context API   
-
+Quick links: [Set Up](#project_set_up)
 This project will walk you through the steps to set up User Authentiaction via Google sign in using Firebase, React and React Context.  
 
 ## What is Firebase?
 
-Firebase is whats known as  a BAAS, or Back End As A Service, for creating mobile and web applications. It was originally an independent company founded in 2011.  In 2014, Google acquired the platformand it is now their flagship offering for app development. Its primary features include a Realtime noSQL database, and user authentication that all come out of the box and ready to connect to a front end application.  While using Firebase is very convenient in many ways it also limits the scope of a full stack applicaiton by limiting the way we structure our database or backened functionality.  It is great for smaller applicaitons that do not need a large back end layer of complexity or to bring in certain features (LIKE AUTHENTICATION)
+Firebase is whats known as  a BAAS, or Back End As A Service, for creating mobile and web applications. 
+
+It was originally an independent company founded in 2011.  In 2014, Google acquired the platformand it is now their flagship offering for app development. Its primary features include a Realtime noSQL database, and user authentication that all come out of the box and ready to connect to a front end application. 
+
+While using Firebase is very convenient in many ways it also limits the scope of a full stack applicaiton by limiting the way we structure our database or backened functionality.  It is great for smaller applicaitons that do not need a large back end layer of complexity or to bring in certain features (LIKE AUTHENTICATION)
 
 ### What's So Special About it?
 
-Firebase user Authentication is a streamlined, secure way to integrate multiple different sign in methods to our applications including Facebook, Google, Github, Twitter and more.  Additionally, Firebase provides analytics and a database functionality out of the box.  
+Firebase user Authentication is a streamlined, secure way to integrate multiple different Oauth methods to our applications including Facebook, Google, Github, Twitter and more.  Additionally, Firebase provides analytics and a database functionality out of the box.  
 
 In short - it's a powerful tool to help set up complex backend tasks in our applicaiton.
 
