@@ -1,39 +1,47 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../Providers/UserProvider";
 import { useHistory } from "react-router-dom";
-import { logOut } from "../Services/Firebase";
+import { signOut } from "../Services/Firebase";
+
 
 export const LoggedInPage = () => {
-  let history = useHistory();
-  const [displayName, setDisplayName] = useState("");
-  const [email, setEmail] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  const imgStyle = {
+      width:'30vh',
+      height:'30vh'
+  }
+  const history = useHistory()
+  const user = useContext(UserContext)
   
-  const updateUser = () => {
-
-    }
-
-  useEffect(() => { });
+  useEffect(() => { 
+    if(!user){
+      history.push("/")
+      }
+    }, [user, history]);
   
   const handleLogout = async () => {
+    signOut()
     alert("you've been logged out")
   };
 
-  return (
-    <div>
-      <h1> YOU ARE NOW LOGGED IN</h1>
-      <h1>Welcome {displayName}!</h1>
-      <h1> WE KNOW YOUR EMAIL : {email} !</h1>
+  
+  if ( user ){
+    return (
       <div>
-        <img
-          className="user-image"
-          alt="its the users head"
-          src={photoURL}
-          ></img>
-          <h1>WE KNOW WHAT YOU LOOK LIKE</h1>
+        <h1> YOU ARE NOW LOGGED IN : </h1>
+        <h1>Welcome {user.displayName} !</h1>
+        <div>
+          <img src = {user.photoURL}
+          style={imgStyle}
+            className="user-image"
+            alt="its the users head"
+            ></img>
+        </div>
+        email: {user.email}
+        <button onClick={handleLogout}> LOG OUT</button>
       </div>
-
-      <button onClick={handleLogout}> LOG OUT</button>
-    </div>
-  );
+    );
+  } else 
+  return (
+    <div> NOT LOGGED IN </div>
+  )
 }
