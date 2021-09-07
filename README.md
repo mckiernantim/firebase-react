@@ -173,3 +173,22 @@ export const UserContext = createContext(null)
      ........< all our other components > 
     </UserContext.Provider>
 ```
+
+Now that we have our Context we need to perform the following in UserProvider.js:
+
+* Create a `UserProvdier` component that will  handle `UserContext` state.
+* 
+```js
+export const UserProvider = (props) => {
+  const [user, setUser] = useState(null);
+   return (
+    <UserContext.Provider value={user}>
+      <div></div>
+    </UserContext.Provider>
+  )
+  }
+ 
+  
+```
+* Render  our new `UserContext.Provider` component inside our app.
+*  
