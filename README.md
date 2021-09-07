@@ -2,7 +2,7 @@
 Quick links 
 [Set Up](#project-set-up)
 [Firebase API](#firebase-api)
-[React useContext()](#react-usecontext-api) 
+[React useContext()](#react-context-api) 
 [UserContext](#managing-usercontext)
 [Auth State](#auth-and-state)
 [Summary](#putting-it-all-together)
