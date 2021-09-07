@@ -1,5 +1,11 @@
 # Firebase Auth with Google and React Context API   
-Quick links: [Set Up](#project-set-up)
+Quick links 
+[Set Up](#project-set-up)
+[Firebase API](firebase-api)
+[React useContext()](react-usecontext()) 
+[UserContext](managing-usercontext)
+[Auth State](auth-and-state)
+[Summary](#putting-it-all-together)
 
 This project will walk you through the steps to set up User Authentiaction via Google sign in using Firebase, React and React Context.  
 
@@ -88,7 +94,7 @@ page preventing our router from loading a view unless the `user` in our `Context
 npm i fireabase
 ```
 
-## Firbebase API
+# Firbebase API
 Te firebase SDK - software development kit - gives us a <em> ton </em> of functionality out of the box.  For this lesson we will focus only on implementing Google Oauth.  Adding email/passoword login, or other Oauth only requires a few extra steps but is very similar.
 
 More information on Firebase [here](https://firebase.google.com/docs/auth/web/start)
@@ -152,7 +158,7 @@ export const signOut = async () =>{
 
 Congratulations, you just wrote up a service to leverage Oauth for you react application.  Next step is to connect it to our Create-React-App.
 
-## Set up React useContext()
+# React useContext()
 
 Next, we need to set up a context that will expose a global state value to all of our components.  Simply put, if we have a user held in the context's state - the user can navigate our application.  If not, we reoute the user to the login page.
 
@@ -179,7 +185,7 @@ export const UserContext = createContext(null)
      ........< all our other components > 
     </UserContext.Provider>
 ```
-## Managing UserContext
+# Managing UserContext
 
 Now that we have our Context - `UserContext` we need to perform the following in `UserProvider.js` to managin our context
 
@@ -190,7 +196,8 @@ Now that we have our Context - `UserContext` we need to perform the following in
 * Import our `auth` instance from `services/firebase.js`, listen for changes, and update state accordingly
 
 ### Create  `UserProvdier` component
-
+ 
+UserProvider.js
 ```js
 export const UserProvider = (props) => {
   const [user, setUser] = useState(null);
@@ -215,7 +222,7 @@ export const UserProvider = (props) => {
  
 More on `props.children` [here](https://reactjs.org/docs/composition-vs-inheritance.html) - or try it on [codepen](https://codepen.io/gaearon/pen/ozqNOV?editors=0010)
 
-### Manage Auth State
+# Auth and State
 
 Next, lets set up a `useEffect()` in `UserProvider` component to listen for changes in the `auth` object we brought from `firebase.js` by invoking the `onAuthStateChanged()` method from our `auth` object.
 ```js
@@ -280,7 +287,7 @@ function App() {
 
 
 
-## Putting It All Together
+# Putting It All Together
 
 So far we've: 
 
