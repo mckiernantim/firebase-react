@@ -143,3 +143,33 @@ export const signOut = async () =>{
   }
 }
 ```
+
+Congratulations, you just wrote up a service to leverage Oauth for you react application.  Next step is to connect it to our Create-React-App.
+
+## React and useContext()
+
+Next, we need to set up a context that will expose a global state value to all of our components.  Simply put, if we have a user held in the context's state - the user can navigate our application.  If not, we reoute the user to the login page.
+
+Navigate to the `providers` folder in our app 
+```js
+touch userProvider.js
+```
+This file will be responsible for listening for any changes in our firebase `auth` object and then updating the state of our context to be consumed by our components.  
+
+First, lets bring in our imports
+```js
+import React, { useEffect, useState, createContext } from "react";
+//noice here we are refrenceing the service we set up earlier
+import { auth } from "../Services/Firebase";
+```
+Next, we need to create a context that our components can consume. Let's initialize it with `null`
+```js
+export const UserContext = createContext(null)
+```
+<strong>Note:</strong> When invoked, `createContext()` <em> automatically creates a new component for our context </em>. After creating a context we have accesss to a component anywhere in our app called `<UserContext.Provider />`.  Any component <em> nested within this component </em> has access to special attribute on `<UserContext.Provider />` called `value`.  
+```js
+  // any thing nested in our provider can access the value stored within it
+   <UserContext.Provider value={user}>
+     ........< all our other components > 
+    </UserContext.Provider>
+```
