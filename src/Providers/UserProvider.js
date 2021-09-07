@@ -1,11 +1,11 @@
 import React, { useState, useEffect, createContext } from "react";
 
 
-export default (props) => {
+export const UserProvider =  (props) => {
     const [user, setUser] = useState(null);
     useEffect(() => {}, []) 
     return (
-      
+      <div> </div>
     ) 
 }
 
