@@ -147,7 +147,7 @@ export const signOut = async () =>{
 
 Congratulations, you just wrote up a service to leverage Oauth for you react application.  Next step is to connect it to our Create-React-App.
 
-## React and useContext()
+## Set up React useContext()
 
 Next, we need to set up a context that will expose a global state value to all of our components.  Simply put, if we have a user held in the context's state - the user can navigate our application.  If not, we reoute the user to the login page.
 
@@ -174,14 +174,17 @@ export const UserContext = createContext(null)
      ........< all our other components > 
     </UserContext.Provider>
 ```
+## Managing UserContext
 
-Now that we have our Context we need to perform the following in UserProvider.js
+Now that we have our Context - `UserContext` we need to perform the following in `UserProvider.js` to managin our context
+
 * Create  `UserProvider` component that will  handle `UserContext` state. 
+
 * Render our `UserContext.Provider` inside of our `UserProvider`
+
 * Import our `auth` instance from `services/firebase.js`, listen for changes, and update state accordingly
 
-
-* Create  `UserProvdier`
+### Create  `UserProvdier` component
 
 ```js
 export const UserProvider = (props) => {
@@ -191,7 +194,7 @@ export const UserProvider = (props) => {
  
   
 ```
-* Render our new `UserContext.Provider` component inside our app <em> and anything nested inside of it</em>.
+### Render our new `UserContext.Provider` component 
 ```js
 export const UserProvider = (props) => {
   const [user, setUser] = useState(null);
@@ -206,6 +209,91 @@ export const UserProvider = (props) => {
  <strong>Note:</strong> Wait - what is this ` { props.children } ` you may be asking?  Smply put - the `props.children` method is available to us on all components.  It's best to think of it as a placeholder for values <em> we don't know yet </em> when desigining components.  In this case, our `UserProvider` component is rendering our `UserContext.Provider` component which we recieved from calling `createContext()`.  This `UserContext.Provder` component renders `{ props.children }` so that React knows that whatever is nested inside `UserContext.Provider` is rendered in our application.  
  
 More on `props.children` [here](https://reactjs.org/docs/composition-vs-inheritance.html) - or try it on [codepen](https://codepen.io/gaearon/pen/ozqNOV?editors=0010)
+
+### Manage Auth State
+
+Next, lets set up a `useEffect()` in `UserProvider` component to listen for changes in the `auth` object we brought from `firebase.js` by invoking the `onAuthStateChanged()` method from our `auth` object.
+```js
+export const UserProvider = (props) => {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+//listen for changes
+    auth.onAuthStateChanged(async (user) => {
+		console.log(user)
+      if (user) {
+        // get return values from Firebase
+        const { email, displayName, photoURL, uid } = user;
+      // save them in state
+        setUser({ email, displayName, photoURL, uid });
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
+  return (
+   // render context provider with user state in value
+    <UserContext.Provider value={user}>
+      <div>{props.children}</div>
+    </UserContext.Provider>
+  );
+};
+```
+<strong>Note:</strong> the `onAuthStateChanged()` method creates something called an `Observer` from a library called RXJS.  This `Observer` listens for any changes on the object it was called on will fire whatever callback we specify once the `Observer` signals a change.  We don't need to get deep under the hood for this lesson but for more on Observers click  [here](https://rxjs.dev/guide/overview)
+
+
+## Putting It All Together
+
+So far we've: 
+
+* created a Firebase app to authenticate and record our users 
+* Leveraged Firebase SDK API to authenticate and save our user in component state
+* Created a React Context to allow access to our state value.
+
+Our last step is to connect our `signInWithGoogle()`  method from 'firebase.js` to our `Login` component and set up a `useEffect()` to reroute our user if we are not logged in.
+
+Login.js
+Handle imports
+```js
+import React, { useContext, useEffect, useState } from "react";
+import { LoggedInPage } from "../Pages/LoggedInPage";
+import { UserContext } from "../Providers/UserProvider";
+import { useHistory } from "react-router-dom";
+import {
+  signInWithGoogle,
+  signOut
+} from "../Services/Firebase";
+```
+
+Lets save the state of our `UserContext` and create a `useEffect()` to listen for changes and connect our functions to our buttons.
+
+```js
+export const Login = () => {
+  const user = useContext(UserContext);
+   useEffect(() => {
+    if (user) {
+      history.push("/loggedInPage");
+    }
+  }, [user, history]);
+    return (
+    <div>
+      <section>
+        <div>
+          <div> login works</div>
+          <button onClick={signInWithGoogle}>Sign in With google</button>
+          <button onClick={signOut}> sign out</button>
+      </div>
+      </section>
+    </div>
+  );
+};
+```
+
+
+
+
+
+
+
 
 
 
