@@ -44,9 +44,6 @@ and then our `useEffect()` hook reroutes our application back to our login
 page preventing our router from loading a view unless the `user` in our `Context` state is valid.
 
 
-
-## Lets light this candle!
-
 ## Project Set Up
 
 * Clone this repo!  
@@ -76,4 +73,13 @@ page preventing our router from loading a view unless the `user` in our `Context
 
 * run `npm i dotenv firebase` to bring in our dependencies
 
-* Head to our `services` directory.  
+* Create a `Firebase.js` file.  This file will handle all of our logic pertaining to firebase.  We will keep it seperate from our components.
+* Remmber to install firebase!
+```js 
+npm i fireabase
+```
+
+## Firbebase API
+
+
+
