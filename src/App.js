@@ -13,17 +13,17 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/">
-            <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-          </header>
+              <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+              </header>
               <LoginPage />
             </Route>
             <Route path ="/loggedInPage">
               <LoggedInPage />
             </Route>
-            <LoginPage />
+              <LoginPage />
           </Switch>
-          </Router>
+        </Router>
  
     </div>
   );
