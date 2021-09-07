@@ -30,14 +30,18 @@ To setup firebase on our apps we will need to perform the following:
 
 Our React app is going to use a `service` ( just a function ) to create a 
 `firebaseAuth()` instance and call the `signInWithPopUp()` 
-method and pass it an instance of a `GoogleAuthProvider()`.   
+method and pass it an instance of a `GoogleAuthProvider()`. 
 This is very similar to how we import and set up our express server.  
+
+
 We then take our app information from our `firebaseConfig` that Firebase 
 gave us when we resitered our app.  We will then create a `Contex` 
-by calling the `useContext()` hook.  Don't worry you are not familiar with `useContext()` 
+by calling the `useContext()` hook. Don't worry you are not familiar with `useContext()` 
 we'll walk through it together (read up on it <https://reactjs.org/docs/context.html>,)
 but for now thinkg of a `Context` as a way to share information between components
-without them down as props.  Once our users sign in we save the information we get from Google
+without them down as props.  
+
+Once our users sign in we save the information we get from Google
 as state on our `Context` as `user`.  We then set up a `useEffect()` 
 hook to watch our `user`.  When our `user` logs out we update state on our `Context` 
 and then our `useEffect()` hook reroutes our application back to our login
@@ -71,10 +75,10 @@ page preventing our router from loading a view unless the `user` in our `Context
   <strong> Note </strong> we do not need to install dotenv!  Create React App allows us to acces .env files but they <em> must </em> start with `REACT_APP` in our .env files.
 * Now we need to map all the values from our `firebaseConfig` object to our `.env` file.
 
-* run `npm i dotenv firebase` to bring in our dependencies
 
 * Create a `Firebase.js` file.  This file will handle all of our logic pertaining to firebase.  We will keep it seperate from our components.
 * Remmber to install firebase!
+
 ```js 
 npm i fireabase
 ```
@@ -87,8 +91,11 @@ More on Oauth [here](https://en.wikipedia.org/wiki/OAuth)
 
 In order to leverage Firebase authentaction API we need to do the following:
 
-* Create a `firebaseConfig` object with our `.env` variables
+* Import our firebase files and create a `firebaseConfig` object with our `.env` variables
 ```js
+
+import firebase from "firebase/app";
+import "firebase/auth"
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
