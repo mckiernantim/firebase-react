@@ -1,5 +1,5 @@
 # Firebase Auth with Google and React Context API   
-Quick links: [Set Up](##project_set_up)
+Quick links: [Set Up](#project_set_up)
 This project will walk you through the steps to set up User Authentiaction via Google sign in using Firebase, React and React Context.  
 
 ## What is Firebase?
@@ -52,7 +52,7 @@ and then our `useEffect()` hook reroutes our application back to our login
 page preventing our router from loading a view unless the `user` in our `Context` state is valid.
 
 
-## Project Set Up
+# Project Set Up
 
 * Clone this repo!  
 
