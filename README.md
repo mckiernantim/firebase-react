@@ -238,7 +238,41 @@ export const UserProvider = (props) => {
   );
 };
 ```
-<strong>Note:</strong> the `onAuthStateChanged()` method creates something called an `Observer` from a library called RXJS.  This `Observer` listens for any changes on the object it was called on will fire whatever callback we specify once the `Observer` signals a change.  We don't need to get deep under the hood for this lesson but for more on Observers click  [here](https://rxjs.dev/guide/overview)
+<strong>Note:</strong> the `onAuthStateChanged()` method creates something called an `Observer` from a library called RXJS.  This `Observer` listens for any changes on the object it was called on will fire whatever callback we specify once the `Observer` signals a change.  We don't need to get deep under the hood for this lesson but for more on Observers click  [here](https://rxjs.dev/guide/observer)
+
+In order to access our Context - we need to import in in `App.js` and nest our other components inside of it
+
+App.js
+
+```js
+import { UserProvider } from "./Providers/UserProvider";
+import { LoggedInPage } from "./Pages/LoggedInPage";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+
+function App() {
+;
+  return (
+    <div className="App">
+      <UserProvider>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <header className="App-header">LETS LEARN FIREBASE AUTH</header>
+              <LoginPage />
+            </Route>
+            <Route path="/loggedInPage">
+              <LoggedInPage />
+            </Route>
+          </Switch>
+        </Router>
+      </UserProvider>
+    </div>
+  );
+}
+```
+<strong>Note:</strong> make sure that our Router is nested inside of our `<UserProvider>` failing to do so will throw an error in leveraging `useHistory()`
+
 
 
 ## Putting It All Together
@@ -287,6 +321,82 @@ export const Login = () => {
   );
 };
 ```
+
+
+Now when our user logs in with `signInWithGoogle()` method - they will be routed to our `LoggedInPage.js` via `useHistory()`.  
+
+Lets make sure that `LoggedInPage.js` is ready to manage our authenticated user by invoking `useEffect()` to make sure we have a `user` object.  If not - let's reroute our user back to the `Login.js`.
+
+LoggedInPage.js
+
+Imports && component Initialization
+```js
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../Providers/UserProvider";
+import { useHistory } from "react-router-dom";
+import { signOut } from "../Services/Firebase";
+
+export const LoggedInPage = () => {
+  const imgStyle = {
+      width:'30vh',
+      height:'30vh'
+  }
+  const history = useHistory()
+  const user = useContext(UserContext)
+  useEffect(() => { 
+    if(!user){
+      history.push("/")
+      }
+    }, [user, history]);
+  
+  const handleLogout = async () => {
+    signOut()
+    alert("you've been logged out")
+  };
+
+ return (
+    <div>
+	Welcome {user.displayName} !
+	 <div>
+        <img
+          style= {imgStyle}
+          alt="its the users head"
+	  src={user.photoURL}
+          ></img>
+          <h1>WE KNOW WHAT YOU LOOK LIKE</h1>
+      </div>
+	
+
+      <button onClick={handleLogout}> LOG OUT</button>
+    </div>
+  );
+}
+```
+
+Now that we have authentcation let's navigate to the [firebase console](https://console.firebase.google.com/`). 
+
+From the dashboard, select your app, then on the Project Overview page - select authentication from the sidebar menu.
+
+You should now see a database that firebase uses to keep track of your users.  Notice each user has a uniqe `uid`. In our apps we can now store whatever information we may be using in our Postgress DB with the `uid` key to connect them to our users.  Any user that signs in will be recored in the Firebase Authentication table.
+
+# Wrapping it all up
+
+Lets review the steps of our authentication 
+
+* We registered an app with firebase and recorded our config variables.
+
+* Using the firebase SDK ( npm i firebase ) we initilaized an app and passed our config variables
+
+* We leveraged Firebase's `signInWithPopUp()` function and passed it an instance of Firebase's `googleAuthProvider()` 
+
+* using React `useContext()` API, we instantiated a `UserContext` and rendered the generated `<UserContext.Provider />` component in a UserProvider Component that listens for changes on our Firebase `auth` objet
+
+* Our `Login.js` page and `LoggedIn.js` update their `user` state whenever the user value changes.  
+
+* If we have a user we route the user to certain pages.  Otherwise we route them to the login.
+
+
+
 
 
 
