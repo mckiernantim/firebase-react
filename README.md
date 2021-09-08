@@ -97,6 +97,68 @@ page preventing our router from loading a view unless the `user` in our `Context
 ```js 
 npm i fireabase
 ```
+# Firebase API
+The firebase SDK - software development kit - gives us a <em> ton </em> of functionality out of the box.  For this lesson we will focus only on implementing Google Oauth.  Adding email/passoword login, or other Oauth only requires a few extra steps but is very similar.
+
+More information on Firebase [here](https://firebase.google.com/docs/auth/web/start)
+
+More on Oauth [here](https://en.wikipedia.org/wiki/OAuth)
+
+In order to leverage Firebase authentaction API we need to do the following:
+
+* Import our firebase files and create a `firebaseConfig` object with our `.env` variables
+
+```js
+import firebase from "firebase/app";
+import "firebase/auth"
+
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID
+};
+```
+* initialize an instance of firebase (much like an express server) with our config
+```js
+const app = firebase.initializeApp(firebaseConfig);
+```
+* export our app invoking its `auth` function
+```js
+export const auth = app.auth();
+```
+
+* create a `provider` for any authentication method we may be using. (facebook, twitter, email/password etc.). For this lesson we will use Google Oauth.
+```js
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+```
+* Export functions that use the `signInWithPopUp()` method we get from firebase, passing in whatever `provider` we created.
+```js
+export const signInWithGoogle = async () => {
+  try {
+//the signInWithPopUp() method accepts ANY provider we create. This is all our authentication logic
+  await auth.signInWithPopup(googleProvider);
+   } catch (err) {
+    console.log(err);
+  }
+};
+```
+* Don't forget a sign out method!
+```js
+export const signOut = async () =>{
+  try {
+    await auth.signOut()
+    alert("you've signed out - congrats.")
+  } catch(err) {
+    console.log(err)
+  }
+}
+```
+
+Congratulations, you just wrote up a service to leverage Oauth for you react application.  Next step is to connect it to our Create-React-App.
 
 
 # React Context API
@@ -225,68 +287,6 @@ function App() {
 }
 ```
 <strong>Note:</strong> make sure that our Router is nested inside of our `<UserProvider>` failing to do so will throw an error in leveraging `useHistory()`
-# Firebase API
-The firebase SDK - software development kit - gives us a <em> ton </em> of functionality out of the box.  For this lesson we will focus only on implementing Google Oauth.  Adding email/passoword login, or other Oauth only requires a few extra steps but is very similar.
-
-More information on Firebase [here](https://firebase.google.com/docs/auth/web/start)
-
-More on Oauth [here](https://en.wikipedia.org/wiki/OAuth)
-
-In order to leverage Firebase authentaction API we need to do the following:
-
-* Import our firebase files and create a `firebaseConfig` object with our `.env` variables
-
-```js
-import firebase from "firebase/app";
-import "firebase/auth"
-
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREMENT_ID
-};
-```
-* initialize an instance of firebase (much like an express server) with our config
-```js
-const app = firebase.initializeApp(firebaseConfig);
-```
-* export our app invoking its `auth` function
-```js
-export const auth = app.auth();
-```
-
-* create a `provider` for any authentication method we may be using. (facebook, twitter, email/password etc.). For this lesson we will use Google Oauth.
-```js
-const googleProvider = new firebase.auth.GoogleAuthProvider();
-```
-* Export functions that use the `signInWithPopUp()` method we get from firebase, passing in whatever `provider` we created.
-```js
-export const signInWithGoogle = async () => {
-  try {
-//the signInWithPopUp() method accepts ANY provider we create. This is all our authentication logic
-  await auth.signInWithPopup(googleProvider);
-   } catch (err) {
-    console.log(err);
-  }
-};
-```
-* Don't forget a sign out method!
-```js
-export const signOut = async () =>{
-  try {
-    await auth.signOut()
-    alert("you've signed out - congrats.")
-  } catch(err) {
-    console.log(err)
-  }
-}
-```
-
-Congratulations, you just wrote up a service to leverage Oauth for you react application.  Next step is to connect it to our Create-React-App.
 
 
 
