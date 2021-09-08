@@ -64,7 +64,7 @@ page preventing our router from loading a view unless the `user` in our `Context
 
 
 # Project Set Up
-
+Official Firebase setup docs [here](https://firebase.google.com/docs/web/setup)
 * Clone this repo!  
 
 * Head to https://firebase.google.com/  and click `Get Started` to sign up for Firebase
