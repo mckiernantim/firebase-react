@@ -1,17 +1,14 @@
 import React, { useContext, useEffect} from "react";
-
+import { useHistory } from "react-router-dom";
 
 export const Login = () => {
-  const history = useHistory()
-  useEffect(() => {})
+  const history = useHistory();
+  useEffect(() => {});
 const handleSignIn = async () =>{}
  return (
     <div>
       <h1>Sign in with google!</h1>
-      <button
-        src="https://img.icons8.com/ios-filled/50/000000/google-logo.png"
-        alt="google icon"
-      >
+      <button>
         <span> Continue with Google</span>
     </button>
     </div>
