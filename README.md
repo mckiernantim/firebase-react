@@ -121,6 +121,7 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 ```
+Next we have to begin using Firebase's built in API.  For a deeper dive check the docs [here](https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#onauthstatechanged)
 * initialize an instance of firebase (much like an express server) with our config
 ```js
 const app = firebase.initializeApp(firebaseConfig);
