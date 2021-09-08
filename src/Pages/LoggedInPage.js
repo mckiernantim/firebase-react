@@ -5,10 +5,6 @@ import { useHistory } from "react-router-dom";
 
 export const LoggedInPage = () => {
   let history = useHistory();
-  
-  const updateUser = () => {
-
-    }
 
   useEffect(() => { });
   
