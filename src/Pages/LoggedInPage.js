@@ -25,7 +25,7 @@ export const LoggedInPage = () => {
         <img
           className="user-image"
           alt="its the users head"
-          src=
+          src=""
           ></img>
           <h1>WE KNOW WHAT YOU LOOK LIKE</h1>
       </div>
