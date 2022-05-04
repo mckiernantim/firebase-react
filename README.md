@@ -45,14 +45,17 @@ To setup firebase on our apps we will need to perform the following:
 ## What we're doing in React
 
 Our React app is going to use a `service` ( just a function ) to create a 
-`firebaseAuth()` instance and call the `signInWithPopUp()` 
-method and pass it an instance of a `GoogleAuthProvider()`. 
+`firebaseAuth()` instance.  
+Next, we call the `signInWithPopUp()` native method and pass it an instance of a `GoogleAuthProvider()`. 
 This is very similar to how we import and set up our express server.  
 
 
-We then take our app information from our `firebaseConfig` that Firebase 
-gave us when we resitered our app.  We will then create a `Context` 
-by calling the `useContext()` hook. Don't worry you are not familiar with `useContext()` we'll walk through it together (read up on it <https://reactjs.org/docs/context.html>,)
+Next we pass our app information from our `firebaseConfig` that Firebase 
+gave us when we resitered our app.  
+
+Then, we create a `Context` 
+by calling the `useContext()` hook. 
+Don't worry you are not familiar with `useContext()` we'll walk through it together (read up on it <https://reactjs.org/docs/context.html>,)
 but for now thinkg of a `Context` as a way to share information between components
 without needing to pass them down as props.  
 
