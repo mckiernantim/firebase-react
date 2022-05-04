@@ -1,16 +1,30 @@
-import React, { useContext, useEffect} from "react";
+
+import React, { useContext, useEffect } from "react";
+import { UserContext } from "../Providers/UserProvider";
 import { useHistory } from "react-router-dom";
+import { signInWithGoogle, signOut } from "../Services/Firebase";
+
+
 
 export const Login = () => {
+  const user = useContext(UserContext);
   const history = useHistory();
-  useEffect(() => {});
-const handleSignIn = async () =>{}
- return (
+  useEffect(() => {
+    if (user) {
+      history.push("/loggedInPage");
+    }
+  }, [user, history]);
+
+  return (
     <div>
-      <h1>Sign in with google!</h1>
-      <button>
-        <span> Continue with Google</span>
-    </button>
+      <section>
+        <div>
+          <div> login works</div>
+          <button onClick={signInWithGoogle}>Sign in With google</button>
+          <button onClick={signOut}> sign out</button>
+      </div>
+      </section>
+
     </div>
   );
-}
+};

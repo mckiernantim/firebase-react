@@ -1,32 +1,50 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../Providers/UserProvider";
 import { useHistory } from "react-router-dom";
+import { signOut } from "../Services/Firebase";
 
 
 export const LoggedInPage = () => {
-  let history = useHistory();
+  const imgStyle = {
+      width:'30vh',
+      height:'30vh'
+  }
+  const history = useHistory()
+  const user = useContext(UserContext)
+  
+  useEffect(() => { 
+    if(!user){
+      history.push("/")
+      }
+    }, [user, history]);
 
-  useEffect(() => { });
   
   const handleLogout = async () => {
+    signOut()
     alert("you've been logged out")
   };
 
-  return (
-    <div>
-      <h1> YOU ARE NOW LOGGED IN</h1>
-      <h1>Welcome !</h1>
-      <h1> WE KNOW YOUR EMAIL : } !</h1>
-      <div>
-        <img
-          className="user-image"
-          alt="its the users head"
-          src=""
-          ></img>
-          <h1>WE KNOW WHAT YOU LOOK LIKE</h1>
-      </div>
 
-      <button onClick={handleLogout}> LOG OUT</button>
-    </div>
-  );
+  
+  if ( user ){
+    return (
+      <div>
+        <h1> YOU ARE NOW LOGGED IN : </h1>
+        <h1>Welcome {user.displayName} !</h1>
+        <div>
+          <img src = {user.photoURL}
+          style={imgStyle}
+            className="user-image"
+            alt="its the users head"
+            ></img>
+        </div>
+        email: {user.email}
+        <button onClick={handleLogout}> LOG OUT</button>
+
+      </div>
+    );
+  } else 
+  return (
+    <div> NOT LOGGED IN </div>
+  )
 }
