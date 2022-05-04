@@ -13,7 +13,9 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/">
+
               <header className="App-header">LETS LEARN FIREBASE AUTH</header>
+
               <LoginPage />
             </Route>
             <Route path="/loggedInPage">
@@ -21,7 +23,9 @@ function App() {
             </Route>
           </Switch>
         </Router>
+
       </UserProvider>
+
     </div>
   );
 }

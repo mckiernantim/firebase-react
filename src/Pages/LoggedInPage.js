@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../Providers/UserProvider";
 import { useHistory } from "react-router-dom";
 import { signOut } from "../Services/Firebase";
@@ -17,11 +17,13 @@ export const LoggedInPage = () => {
       history.push("/")
       }
     }, [user, history]);
+
   
   const handleLogout = async () => {
     signOut()
     alert("you've been logged out")
   };
+
 
   
   if ( user ){
@@ -38,6 +40,7 @@ export const LoggedInPage = () => {
         </div>
         email: {user.email}
         <button onClick={handleLogout}> LOG OUT</button>
+
       </div>
     );
   } else 

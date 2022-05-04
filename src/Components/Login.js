@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../Providers/UserProvider";
 import { useHistory } from "react-router-dom";
@@ -23,6 +24,7 @@ export const Login = () => {
           <button onClick={signOut}> sign out</button>
       </div>
       </section>
+
     </div>
   );
 };
