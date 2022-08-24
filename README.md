@@ -206,7 +206,7 @@ export const UserContext = createContext(null)
 
 
 Now that we have our Context - `UserContext` we need to perform the following in `UserProvider.js` to managin our context
-=======
+
 
 
 * Create  `UserProvider` component that will  handle `UserContext` state. 
