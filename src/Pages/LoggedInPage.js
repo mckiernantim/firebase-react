@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../Providers/UserProvider";
-import { useHistory } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { signOut } from "../Services/Firebase";
 
 
@@ -9,12 +9,13 @@ export const LoggedInPage = () => {
       width:'30vh',
       height:'30vh'
   }
-  const history = useHistory()
-  const user = useContext(UserContext)
+  const navigate = useNavigate();
+  const user = useContext(UserContext);
   
   useEffect(() => { 
-    if(!user){
-      history.push("/")
+    if(!user) {
+        alert("not logged in - redirecting")
+        naviagate("/");
       }
     }, [user, history]);
 
