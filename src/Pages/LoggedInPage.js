@@ -17,7 +17,7 @@ export const LoggedInPage = () => {
         alert("not logged in - redirecting")
         naviagate("/");
       }
-    }, [user, history]);
+    }, [user, navigate]);
 
   
   const handleLogout = async () => {
