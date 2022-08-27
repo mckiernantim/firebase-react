@@ -2,26 +2,20 @@ import "./App.css";
 import { LoginPage } from "./Pages/LoginPage";
 import { UserProvider } from "./Providers/UserProvider";
 import { LoggedInPage } from "./Pages/LoggedInPage";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 function App() {
 ;
   return (
     <div className="App">
+     <header className="App-header">LETS LEARN FIREBASE AUTH</header>
       <UserProvider>
         <Router>
-          <Switch>
-            <Route exact path="/">
-
-              <header className="App-header">LETS LEARN FIREBASE AUTH</header>
-
-              <LoginPage />
-            </Route>
-            <Route path="/loggedInPage">
-              <LoggedInPage />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route  path="/" element = { <LoginPage /> } /> 
+            <Route path="/loggedInPage" element = { <LoggedInPage } />
+         </Routes>
         </Router>
 
       </UserProvider>
