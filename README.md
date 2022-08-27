@@ -47,7 +47,7 @@ To setup firebase on our apps we will need to perform the following:
 
 Our React app is going to use a `service` ( just a function ) to create a 
 
-`firebaseAuth()` instance and call the `signInWithPopUp()` 
+`getAuth()` instance and call the `signInWithPopUp()` 
 method and pass it an instance of a `GoogleAuthProvider()`. 
 This is very similar to how we import and set up our express server.  
 
