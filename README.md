@@ -121,8 +121,8 @@ In order to leverage Firebase authentaction API we need to do the following:
 * Import our firebase files and create a `firebaseConfig` object with our `.env` variables
 
 ```js
-import firebase from "firebase/app";
-import "firebase/auth"
+import { initializeApp } from 'firebase/app';
+import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -141,10 +141,12 @@ const firebaseConfig = {
 ```js
 const app = firebase.initializeApp(firebaseConfig);
 ```
-* export our app invoking its `auth` function
+* create an instance of authentication and set default language
 ```js
-export const auth = app.auth();
+export const auth = getAuth();
+auth.useDeviceLanguage();
 ```
+
 
 * create a `provider` for any authentication method we may be using. (facebook, twitter, email/password etc.). For this lesson we will use Google Oauth.
 ```js
@@ -155,7 +157,10 @@ const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = async () => {
   try {
 //the signInWithPopUp() method accepts ANY provider we create. This is all our authentication logic
-  await auth.signInWithPopup(googleProvider);
+  signInWithPopup(googleProvider).then((res) => {
+  const user = res.user;
+  console.log(user)
+})
    } catch (err) {
     console.log(err);
   }
