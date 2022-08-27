@@ -24,9 +24,6 @@ export const LoggedInPage = () => {
     signOut()
     alert("you've been logged out")
   };
-
-
-  
   if ( user ){
     return (
       <div>
