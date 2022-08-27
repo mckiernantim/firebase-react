@@ -1,25 +1,24 @@
 
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../Providers/UserProvider";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { signInWithGoogle, signOut } from "../Services/Firebase";
 
 
 
 export const Login = () => {
   const user = useContext(UserContext);
-  const history = useHistory();
+  const history = useNavigate();
   useEffect(() => {
     if (user) {
-      history.push("/loggedInPage");
+      navigate("/loggedInPage");
     }
-  }, [user, history]);
+  }, [user, navigate]);
 
   return (
     <div>
       <section>
         <div>
-          <div> login works</div>
           <button onClick={signInWithGoogle}>Sign in With google</button>
           <button onClick={signOut}> sign out</button>
       </div>
