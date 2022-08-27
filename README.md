@@ -83,7 +83,7 @@ page preventing our router from loading a view unless the `user` in our `Context
 * In our CRA app - create a `.env` file and paste the following in:
 
 
-    ```
+```js
     REACT_APP_API_KEY=""
     REACT_APP_AUTH_DOMAIN=""
     REACT_APP_PROJECT_ID=""
@@ -103,6 +103,7 @@ page preventing our router from loading a view unless the `user` in our `Context
 
 ```js 
 npm i fireabase
+
 ```
 
 
