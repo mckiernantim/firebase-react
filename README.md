@@ -118,7 +118,7 @@ In order to leverage Firebase authentaction API we need to do the following:
 
 * Import our firebase files and create a `firebaseConfig` object with our `.env` variables
 
-
+```js
 import firebase from "firebase/app";
 import "firebase/auth"
 
