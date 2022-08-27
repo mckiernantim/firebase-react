@@ -150,7 +150,7 @@ auth.useDeviceLanguage();
 
 * create a `provider` for any authentication method we may be using. (facebook, twitter, email/password etc.). For this lesson we will use Google Oauth.
 ```js
-const googleProvider = new firebase.auth.GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 ```
 * Export functions that use the `signInWithPopUp()` method we get from firebase, passing in whatever `provider` we created.
 ```js
