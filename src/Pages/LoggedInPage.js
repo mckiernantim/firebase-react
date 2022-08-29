@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
-import { UserContext } from "../Providers/UserProvider";
+// import { UserContext } from "../Providers/UserProvider";
 import { useNavigate} from "react-router-dom";
-import { signOut } from "../Services/Firebase";
+
 
 
 export const LoggedInPage = () => {
@@ -10,18 +10,18 @@ export const LoggedInPage = () => {
       height:'30vh'
   }
   const navigate = useNavigate();
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
   
   useEffect(() => { 
     if(!user) {
         alert("not logged in - redirecting")
-        naviagate("/");
+        navigate("/");
       }
     }, [user, navigate]);
 
   
   const handleLogout = async () => {
-    signOut()
+  
     alert("you've been logged out")
   };
   if ( user ){
@@ -29,15 +29,17 @@ export const LoggedInPage = () => {
       <div>
         <h1> YOU ARE NOW LOGGED IN : </h1>
         <h1>Welcome {user.displayName} !</h1>
+        <h1>WE KNOW WHAT YOU LOOK LIKE!</h1> 
         <div>
           <img src = {user.photoURL}
           style={imgStyle}
             className="user-image"
             alt="its the users head"
+            referrerpolicy="no-referrer"
             ></img>
         </div>
-        email: {user.email}
-        <button onClick={handleLogout}> LOG OUT</button>
+        <h2> email: {user.email} </h2>
+        <button> LOG OUT</button>
 
       </div>
     );
