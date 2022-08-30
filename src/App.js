@@ -14,15 +14,15 @@ const whaterer = () => {
 function App() {
   return (
     <div className="App">
-  
+      <UserProvider>
         <header className="App-header">LETS LEARN FIREBASE AUTH</header>
-
         <Router>
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/loggedInPage" element={<LoggedInPage />} />
           </Routes>
         </Router>
+      </UserProvider>  
   
     </div>
   );

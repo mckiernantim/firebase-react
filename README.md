@@ -17,7 +17,7 @@ Authentication is what we call the process that allows a device to verify a user
 Firebase is whats known as  a BAAS, or Back End As A Service, for creating mobile and web applications. 
 
 
-It was originally an independent company founded in 2011.  In 2014, Google acquired the platformand it is now their flagship offering for app development. Its primary features include a Realtime noSQL database, and user authentication that all come out of the box and ready to connect to a front end application. 
+It was originally an independent company founded in 2011.  In 2014, Google acquired the platfor and it is now their flagship offering for app development. Its primary features include a Realtime noSQL database, and user authentication that all come out of the box and ready to connect to a front end application. 
 
 While using Firebase is very convenient in many ways it also limits the scope of a full stack applicaiton by limiting the way we structure our database or backened functionality.  It is great for smaller applicaitons that do not need a large back end layer of complexity or to bring in certain features (LIKE AUTHENTICATION)
 
@@ -436,7 +436,7 @@ Lets review the steps of our authentication
 
 * We leveraged Firebase's `signInWithPopUp()` function and passed it an instance of Firebase's `googleAuthProvider()` 
 
-* using React `useContext()` API, we instantiated a `UserContext` and rendered the generated `<UserContext.Provider />` component in a UserProvider Component that listens for changes on our Firebase `auth` objet
+* using React `useContext()` API, we instantiated a `UserContext` and rendered the generated `<UserContext.Provider />` component in a UserProvider Component that listens for changes on our Firebase `auth` object
 
 * Our `Login.js` page and `LoggedIn.js` update their `user` state whenever the user value changes.  
 
