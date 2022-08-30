@@ -10,13 +10,13 @@ import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth"
 // You do not need to place these in a .env due to firebase's setup but I would anyway
 const firebaseConfig = {
     // apikey:process.env.REACT_APP_API_KEY
-  apiKey: "AIzaSyAXIj_DuDvxZtU3FFXP5oMRisZAzVWge6E",
-  authDomain: "fir-8-4.firebaseapp.com",
+  apiKey: "AIzaSyAXIj_DuDvxZtU3FFXP5",
+  authDomain: "fir-8-4.firebaseapp.cm",
   projectId: "fir-8-4",
-  storageBucket: "fir-8-4.appspot.com",
-  messagingSenderId: "259291437863",
-  appId: "1:259291437863:web:0457011eaba74f04ea6702",
-  measurementId: "G-ZK4G4WD61S"
+  storageBucket: "fir-8-4.appspot.cm",
+  messagingSenderId: "25929",
+  appId: "1:259291437863:web:045701",
+  measurementId: "G-ZK4G4WD61"
 };
 
 // Initialize Firebase with the config object we were given
