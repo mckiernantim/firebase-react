@@ -3,7 +3,7 @@ Quick links
 [Set Up](#project-set-up)
 [Firebase API](firebase-api)
 [React useContext()](react-usecontext()) 
-[UserContext](managing-usercontext)
+[AuthContext](managing-usercontext)
 [Auth State](auth-and-state)
 [Summary](#putting-it-all-together)
 
@@ -33,7 +33,7 @@ In short - it's a powerful tool to help set up complex backend tasks in our appl
 To setup firebase on our apps we will need to perform the following:
 
 * Signup for a Firebase account
-* Set up a Create-React-App
+* Set up a React App
 * Register an applicaition on Firebase
 * Enable Firebase Authentication
 * Download our App credientials from Firebase to our `.env`
@@ -178,86 +178,133 @@ export const signOut = async () =>{
 }
 ```
 
-Congratulations, you just wrote up a service to leverage Oauth for you react application.  Next step is to connect it to our Create-React-App.
+Congratulations, you just wrote up a service to leverage Oauth for you react application.  Next step is to connect it to our React App.
 
+# React `useContext()`
 
-# React useContext()
+To understand how a context works in React, let's imagine the following situation:
+
+Visualize this scenario like a game night in Brooklyn with two apartments: one designed like a traditional railroad apartment, and the other as a central open concept.
+
+Each room is having its own game.  
+
+## Railroad Apartment (Top-Down Approach)
+
+- **Issue:** Passing event info from the entrance (top component) to each room (nested components) becomes unwieldy.  I have to move through each room to find the game I'd like to play.
+
+## Central Open Concept Apartment (Context Approach)
+
+- **Analogy:** Imagine a central living space connected to each room with the party host.
+
+- **Benefit:** Instead of passing info through each room, participants (components) can directly access the information they need by communicating directly with the host (context).
+
+**Conclusion:** React context provides a more direct and efficient way for components to access shared information, similar to how an open concept apartment layout allows for shared access without navigating through a series of rooms.
+
 
 Next, we need to set up a context that will expose a global state value to all of our components.  Simply put, if we have a user held in the context's state - the user can navigate our application.  If not, we reoute the user to the login page.
+
+## Set-up 
 
 
 Navigate to the `providers` folder in our app 
 ```js
-touch userProvider.js
+$ touch AuthProvider.jsx
 ```
 This file will be responsible for listening for any changes in our firebase `auth` object and then updating the state of our context to be consumed by our components.  
 
 First, lets bring in our imports
 ```js
+// firebaseAuthProvider.js
 import React, { useEffect, useState, createContext } from "react";
 //noice here we are refrenceing the service we set up earlier
 import { auth } from "../Services/Firebase";
 ```
-Next, we need to create a context that our components can consume. Let's initialize it with `null`
+Next, we need to create a context that our components can consume. Let's initialize it with `null` since we will start the app with no user 
+
+React provides the powerful `createContext()` hook to allow us to create a component that can be accessed from any component in our app by invoking React's `useContext()` hook.
+
+
 ```js
-export const UserContext = createContext(null)
+export const AuthContext = createContext(null)
 ```
-<strong>Note:</strong> When invoked, `createContext()` <em> automatically creates a new component for our context </em>. After creating a context we have accesss to a component anywhere in our app called `<UserContext.Provider />`.  Any component <em> nested within this component </em> has access to special attribute on `<UserContext.Provider />` called `value`.  
-```js
+<strong>Note:</strong> When invoked, `createContext()` <em> automatically creates a new context object </em>. After creating a context, we have access to a component anywhere in our app called `<AuthContext.Provider />`. 
+
+Any component <em> nested within this provider </em> has access to a special attribute on `<AuthContext.Provider>` called `value`.
+
+<strong>Other Note: </strong> the `<AuthContext.Provider value={allOurAuthLogic}>` has one prop - `value`.  
+<br>
+
+<strong>Keep it that way</strong>
+<br>
+While it may be tempting to add additional props as the logic grows it is a best practice to keep <em>all functions, state, and other values exported from a context in one object</em> 
+<br>
+
+<strong>`value`</strong>
+ 
+```jsx
   // any thing nested in our provider can access the value stored within it
-   <UserContext.Provider value={user}>
+   <AuthContext.Provider value={user}>
      ........< all our other components > 
-    </UserContext.Provider>
+    </AuthContext.Provider>
 ```
-# Managing UserContext
+# Managing AuthContext
 
 
-Now that we have our Context - `UserContext` we need to perform the following in `UserProvider.js` to managin our context
+Now that we have our Context - `AuthContext` we need to perform the following in `AuthProvider.js` to managin our context
 
 
 
-* Create  `UserProvider` component that will  handle `UserContext` state. 
+* Create  `AuthProvider` component that will  handle `AuthContext` state. 
 
-* Render our `UserContext.Provider` inside of our `UserProvider`
+* Render our `AuthContext.Provider` inside of our `AuthProvider`
 
 * Import our `auth` instance from `services/firebase.js`, listen for changes, and update state accordingly
 
+* Wrap our logic in our very own custom hook `useAtuh()` to acess the context
+
 ### Create  `UserProvdier` component
  
-UserProvider.js
+AuthProvider.js
 ```js
-export const UserProvider = (props) => {
+export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
    return ()
   }
  
   
 ```
-### Render our new `UserContext.Provider` component 
-```js
-export const UserProvider = (props) => {
+### Render our new `AuthContext.Provider` component 
+```jsx
+export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
    return (
-     <UserContext.Provider value={user}>
-
-      // the props.children will render any value that is passed to our component without us specifically invoking those             // values in our tempalte
-
+     <AuthContext.Provider value={user}>
+   {/* props.children will render any nested child components */}           
          <div>{props.children}</div>
-    </UserContext.Provider>
+    </AuthContext.Provider>
     )
   }
 ```
 
- <strong>Note:</strong> Wait - what is this ` { props.children } ` you may be asking?  Smply put - the `props.children` method is available to us on all components.  It's best to think of it as a placeholder for values <em> we don't know yet </em> when desigining components.  In this case, our `UserProvider` component is rendering our `UserContext.Provider` component which we recieved from calling `createContext()`.  This `UserContext.Provder` component renders `{ props.children }` so that React knows that whatever is nested inside `UserContext.Provider` is rendered in our application.  
+
+ <strong>Note:</strong> Wait - what is this ` { props.children } ` you may be asking? 
+ 
+  Smply put - the `props.children` property is available to us on all components.  It's best to think of it as a placeholder for values <em> we don't know yet </em> when desigining components. 
+  
+ In this case, our `AuthProvider` component is rendering our `AuthContext.Provider` component which we recieved from calling `createContext()`.  
+   
+  This `AuthContext.Provder` component renders `{ props.children }` so that React knows that whatever is nested inside `AuthContext.Provider` is rendered in our application. 
+
+This is refered to as a `Higher Order Component`.  In the same way a `higer order function` accepts or returns a `function`  a `higher order component` accepts or returns `components`
 
  
 More on `props.children` [here](https://reactjs.org/docs/composition-vs-inheritance.html) - or try it on [codepen](https://codepen.io/gaearon/pen/ozqNOV?editors=0010)
 
 # Auth and State
 
-Next, lets set up a `useEffect()` in `UserProvider` component to listen for changes in the `auth` object we brought from `firebase.js` by invoking the `onAuthStateChanged()` method from our `auth` object.
+Next, lets set up a `useEffect()` in `AuthProvider` component to listen for changes in the `auth` object we brought from `firebase.js` by invoking the `onAuthStateChanged()` method from our `auth` object.
 ```js
-export const UserProvider = (props) => {
+const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   useEffect(() => {
 //listen for changes
@@ -275,33 +322,84 @@ export const UserProvider = (props) => {
   }, []);
   return (
    // render context provider with user state in value
-    <UserContext.Provider value={user}>
+    <AuthContext.Provider value={user}>
       <div>{props.children}</div>
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
+
 ```
 
-<strong>Note:</strong> the `onAuthStateChanged()` method creates something called an `Observer` from a library called RXJS.  This `Observer` listens for any changes on the object it was called on will fire whatever callback we specify once the `Observer` signals a change.  We don't need to get deep under the hood for this lesson but for more on Observers click  [here](https://rxjs.dev/guide/observer)
+<strong>Note:</strong> the `onAuthStateChanged()` method creates something called an `Observer` from a library called `RXJS`.  
 
+This `Observer` listens for any changes on the object it was called on will fire whatever callback we specify once the `Observer` signals a change.  We don't need to get deep under the hood for this lesson but for more on Observables click  [here](https://rxjs.dev/guide/observer)
+
+##  Our Custom Hook
+In order to keep with React best practices we should always adhere to the principle of `Abstraction`.  
+
+Rather than importing complex logic - we can wrap our entire file in a clean and simple hook that anyone can use in our app.
+
+Our hook should express what the purpose of the logic is - in this case `Authentication`
+
+Let's go with `useAuth()`
+
+This hook should allow our users to simply access all the logic that we gain by accessing this context.
+
+When a user invokes `useAuth` we need to return a call to the `useContext()` hook and pass it our `authContext` we created
+
+```js
+export const useAuth = () => {
+  return useContext(AuthContext)
+}
+```
+
+```js
+const AuthProvider = (props) => {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+//listen for changes
+    auth.onAuthStateChanged(async (user) => {
+		console.log(user)
+      if (user) {
+        // get return values from Firebase
+        const { email, displayName, photoURL, uid } = user;
+      // save them in state
+        setUser({ email, displayName, photoURL, uid });
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
+  return (
+   // render context provider with user state in value
+    <AuthContext.Provider value={user}>
+      <div>{props.children}</div>
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext)
+}
+```
 
 In order to access our Context - we need to import in in `App.js` and nest our other components inside of it
 
 App.js
 
 ```js
-import { UserProvider } from "./Providers/UserProvider";
+import { AuthProvider } from "./Providers/AuthProvider";
 import { LoggedInPage } from "./Pages/LoggedInPage";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 function App() {
 ;
   return (
     <div className="App">
-      <UserProvider>
+      <AuthProvider>
         <Router>
-          <Switch>
+          <Routes>
             <Route exact path="/">
               <header className="App-header">LETS LEARN FIREBASE AUTH</header>
               <LoginPage />
@@ -309,14 +407,14 @@ function App() {
             <Route path="/loggedInPage">
               <LoggedInPage />
             </Route>
-          </Switch>
+          </Routes>
         </Router>
-      </UserProvider>
+      </AuthProvider>
     </div>
   );
 }
 ```
-<strong>Note:</strong> make sure that our Router is nested inside of our `<UserProvider>` failing to do so will throw an error in leveraging `useHistory()`
+<strong>Note:</strong> make sure that our Router is nested inside of our `<AuthProvider>` failing to do so will throw an error in leveraging `useNavigate()`
 
 
 
@@ -327,30 +425,34 @@ So far we've:
 * created a Firebase app to authenticate and record our users 
 * Leveraged Firebase SDK API to authenticate and save our user in component state
 * Created a React Context to allow access to our state value.
+* Exported all our logic in a custom hook `useAuth()`
 
-Our last step is to connect our `signInWithGoogle()`  method from 'firebase.js` to our `Login` component and set up a `useEffect()` to reroute our user if we are not logged in.
+Our last step is to connect our `signInWithGoogle()`  method from `firebase.js` to our `Login` component and set up a `useEffect()` to reroute our user if we are not logged in.
 
 Login.js
 Handle imports
 ```js
 import React, { useContext, useEffect, useState } from "react";
 import { LoggedInPage } from "../Pages/LoggedInPage";
-import { UserContext } from "../Providers/UserProvider";
-import { useHistory } from "react-router-dom";
+// our custom hook to access our user State
+import { useAuth } from "../Providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
+// our logic to authenticate with firebase
 import {
   signInWithGoogle,
   signOut
 } from "../Services/Firebase";
 ```
 
-Lets save the state of our `UserContext` and create a `useEffect()` to listen for changes and connect our functions to our buttons.
+Lets save the state of our `AuthContext` and create a `useEffect()` to listen for changes and connect our functions to our buttons.
 
 ```js
 export const Login = () => {
-  const user = useContext(UserContext);
+  const { user }  = useAuth();
+  const navigate = useNavigate();
    useEffect(() => {
     if (user) {
-      history.push("/loggedInPage");
+     navigate("/loggedInPage");
     }
   }, [user, history]);
     return (
@@ -368,17 +470,17 @@ export const Login = () => {
 ```
 
 
-Now when our user logs in with `signInWithGoogle()` method - they will be routed to our `LoggedInPage.js` via `useHistory()`.  
+Now when our user logs in with `signInWithGoogle()` method - they will be routed to our `LoggedInPage.js` via `useNavigate()`.  
 
 Lets make sure that `LoggedInPage.js` is ready to manage our authenticated user by invoking `useEffect()` to make sure we have a `user` object.  If not - let's reroute our user back to the `Login.js`.
 
-LoggedInPage.js
 
 Imports && component Initialization
 ```js
+// LoggedInPage.js
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../Providers/UserProvider";
-import { useHistory } from "react-router-dom";
+import { AuthContext } from "../Providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 import { signOut } from "../Services/Firebase";
 
 export const LoggedInPage = () => {
@@ -386,16 +488,16 @@ export const LoggedInPage = () => {
       width:'30vh',
       height:'30vh'
   }
-  const history = useHistory()
-  const user = useContext(UserContext)
+  const navigate = useNavigate()
+  const user = useContext(AuthContext)
   useEffect(() => { 
     if(!user){
-      history.push("/")
+      navigate("/")
       }
     }, [user, history]);
   
   const handleLogout = async () => {
-    signOut()
+    signOut();
     alert("you've been logged out")
   };
 
@@ -436,7 +538,7 @@ Lets review the steps of our authentication
 
 * We leveraged Firebase's `signInWithPopUp()` function and passed it an instance of Firebase's `googleAuthProvider()` 
 
-* using React `useContext()` API, we instantiated a `UserContext` and rendered the generated `<UserContext.Provider />` component in a UserProvider Component that listens for changes on our Firebase `auth` object
+* using React `useContext()` API, we instantiated a `AuthContext` and rendered the generated `<AuthContext.Provider />` component in a AuthProvider Component that listens for changes on our Firebase `auth` object
 
 * Our `Login.js` page and `LoggedIn.js` update their `user` state whenever the user value changes.  
 
